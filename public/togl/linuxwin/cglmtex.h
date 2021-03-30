@@ -291,6 +291,7 @@ struct GLMTexSamplingParams
 		m_packed.m_isValid = true;
 	}
 
+#ifndef OSX
 	FORCEINLINE void SetToSamplerObject( GLuint nSamplerObject ) const
 	{
 		static const GLenum dxtogl_addressMode[] = { GL_REPEAT, GL_CLAMP_TO_EDGE, GL_CLAMP_TO_BORDER, (GLenum)-1 };
@@ -330,6 +331,7 @@ struct GLMTexSamplingParams
 			gGL->glSamplerParameteri( nSamplerObject, GL_TEXTURE_SRGB_DECODE_EXT, m_packed.m_srgb ? GL_DECODE_EXT : GL_SKIP_DECODE_EXT );
 		}
 	}
+#endif // !OSX
 
 	inline void DeltaSetToTarget( GLenum target, const GLMTexSamplingParams &curState )
 	{
@@ -466,7 +468,7 @@ protected:
 	friend struct IDirect3DCubeTexture9;
 	friend struct IDirect3DVolumeTexture9;
 	
-			CGLMTex( GLMContext *ctx, GLMTexLayout *layout, const char *debugLabel = NULL );
+			CGLMTex( GLMContext *ctx, GLMTexLayout *layout, uint levels, const char *debugLabel = NULL );
 			~CGLMTex( );
 	
 	int						CalcSliceIndex( int face, int mip );
